@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.478863, g: 0.80019236, b: 0.90065247, a: 1}
+  m_IndirectSpecularColor: {r: 0.47884, g: 0.8001845, b: 0.90072787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8327,6 +8327,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ba817f4070d192b47a8526d39174c70e, type: 3}
+--- !u!4 &191991442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1276330715041184526, guid: 1420a16fb2d604d4e9ac0eb144e251e1, type: 3}
+  m_PrefabInstance: {fileID: 2009523326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &192049725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32071,7 +32076,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711123877}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5200958, y: 0.036778092, z: -6.042446}
+  m_LocalPosition: {x: -0.8, y: 0.036778092, z: -1.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32096,7 +32101,7 @@ MonoBehaviour:
   invertYAxis: 0
   minAngle: -90
   maxAngle: 90
-  target: {fileID: 1346647004}
+  target: {fileID: 191991442}
   movementSmoothTime: 0.2
   targetOffset: {x: 0, y: 1.8, z: 0}
   targetArmLength: 3
@@ -32108,6 +32113,11 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 66743
+  visualDebugging: 1
+  springArmColor: {r: 0.75, g: 0.2, b: 0.2, a: 0.75}
+  springArmLineWidth: 6
+  showRayCasts: 1
+  showCollisionProbe: 1
 --- !u!1 &713708670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1613846653259236, guid: f0c733681c6e41b4a889fbfad72d6195, type: 3}
@@ -62417,11 +62427,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4516595765375286, guid: a6a12f725b653ce469bb188bc0116669, type: 3}
   m_PrefabInstance: {fileID: 540451466}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1346647004 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7844022153921983513, guid: 1420a16fb2d604d4e9ac0eb144e251e1, type: 3}
-  m_PrefabInstance: {fileID: 2009523326}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1347856884
 PrefabInstance:
@@ -94674,7 +94679,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2029718256896854237, guid: 1420a16fb2d604d4e9ac0eb144e251e1, type: 3}
+    - {fileID: 7009538992032253898, guid: 1420a16fb2d604d4e9ac0eb144e251e1, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 1420a16fb2d604d4e9ac0eb144e251e1, type: 3}
 --- !u!4 &2009523327 stripped

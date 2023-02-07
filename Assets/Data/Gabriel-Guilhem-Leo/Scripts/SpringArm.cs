@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 public class SpringArm : MonoBehaviour
@@ -53,6 +54,22 @@ public class SpringArm : MonoBehaviour
     private RaycastHit[] hits;
     private Vector3[] raycastPositions;
 
+
+    #endregion
+
+    #region Debug
+
+    [Space]
+    [Header("Debugging \n-------------------------")]
+    [Space]
+
+    [SerializeField] private bool visualDebugging = true;
+    [SerializeField] private Color springArmColor = new Color(0.75f, 0.2f, 0.2f, 0.75f);
+    [Range(1f, 10f)][SerializeField] private float springArmLineWidth = 6f;
+    [SerializeField] private bool showRayCasts;
+    [SerializeField] private bool showCollisionProbe;
+
+    private readonly Color collisionProbeColor = new Color(0.2f, 0.75f, 0.2f, 0.15f);
 
     #endregion
 
@@ -159,6 +176,31 @@ public class SpringArm : MonoBehaviour
             Vector3 rayvastLocalEndPoint = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0) * collisionProbeSize;
             raycastPositions[i] = endPoint + (trans.rotation * rayvastLocalEndPoint);
             Physics.Linecast(trans.position, raycastPositions[i], out hits[i], collisionLayerMask);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!visualDebugging)
+            return;
+
+        Handles.color = springArmColor;
+        if (showRayCasts)
+        {
+            foreach(Vector3 raycastPosition in raycastPositions)
+            {
+                Handles.DrawAAPolyLine(springArmLineWidth, 2, transform.position, raycastPosition);
+            }
+        }
+        else
+        {
+            Handles.DrawAAPolyLine(springArmLineWidth, 2, transform.position, endPoint);
+        }
+
+        Handles.color = collisionProbeColor;
+        if (showCollisionProbe)
+        {
+            Handles.SphereHandleCap(0, cameraPosition, Quaternion.identity, 2 * collisionProbeSize, EventType.Repaint);
         }
     }
 }
