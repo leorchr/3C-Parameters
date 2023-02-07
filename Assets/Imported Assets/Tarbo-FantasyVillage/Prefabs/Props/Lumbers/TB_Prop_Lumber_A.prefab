@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4808776859009252}
   - component: {fileID: 33922080253660538}
   - component: {fileID: 23113035992641312}
+  - component: {fileID: -960324303425670618}
   m_Layer: 0
   m_Name: TB_Prop_Lumber_A
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &-960324303425670618
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416005896850966}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.33559006
+  m_Height: 1.7681417
+  m_Direction: 0
+  m_Center: {x: -0.011101961, y: 0.050373495, z: -0.017379731}
