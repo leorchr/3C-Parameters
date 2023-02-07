@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a067d70ab102844989fcbcd83703c07a, type: 3}
+  m_Name: GGL_Craft
+  m_EditorClassIdentifier: 
+  title: A legendary sword (3)
+  shortDescription: Craft the blade behind the fisher's house.
+  description: 'Great ! We can now assemble the handle and the blade. This gift will
+    be perfect... Go to the workbench behind the fisher''s house and use it to create
+    the sword for Belias Keria ! '
+  thankYouMessage: It's... It's perfect. You are quite the blacksmith my friend.
+    The village owes you a lot.
+  reward: 50 gold coins
+  requirements:
+  - item: {fileID: 11400000, guid: bab758cf73a7e254babeecaf1ac42d19, type: 2}
+    quantity: 1
+  moneyReward: 50
+  itemReward:
+    item: {fileID: 0}
+    quantity: 0

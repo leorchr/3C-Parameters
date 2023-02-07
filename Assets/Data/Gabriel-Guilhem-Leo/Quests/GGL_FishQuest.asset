@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a067d70ab102844989fcbcd83703c07a, type: 3}
+  m_Name: GGL_FishQuest
+  m_EditorClassIdentifier: 
+  title: Fishy tester
+  shortDescription: Fetch a fish near the river.
+  description: Great ! Now that I have the potion ready, I need to test it. There
+    might be a "small" probability that I failed this cure. So testing it on a Human
+    is not an option. Could you please find a fish ? There might be some near the
+    river on the pontoon.
+  thankYouMessage: Thank you adventurer ! Now, let's hope this cure works and that
+    the village can be saved from the disease.
+  reward: 20 gold coins
+  requirements:
+  - item: {fileID: 11400000, guid: 96faac13ab5b47a49a2fe41d832d6472, type: 2}
+    quantity: 1
+  moneyReward: 20
+  itemReward:
+    item: {fileID: 0}
+    quantity: 0

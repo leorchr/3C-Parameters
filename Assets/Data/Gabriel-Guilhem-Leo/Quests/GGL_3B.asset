@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a067d70ab102844989fcbcd83703c07a, type: 3}
+  m_Name: GGL_3B
+  m_EditorClassIdentifier: 
+  title: Curing the village
+  shortDescription: Give a cure to 3 villagers.
+  description: 'Perfect ! The cure works and can heal the villagers. Quick ! Bring
+    these three potions to the sick villagers : Bermuda the wizard farmer, Bob the
+    pit digger and Bertrand the bard.'
+  thankYouMessage: 'Thank you so much adventurer. You saved the village ! Go see
+    the blacksmith of the village : Bofor Gueron. He might need your help.'
+  reward: 50 gold coins
+  requirements:
+  - item: {fileID: 11400000, guid: fc99885708f3a8e4d8921314693c337c, type: 2}
+    quantity: 3
+  moneyReward: 50
+  itemReward:
+    item: {fileID: 0}
+    quantity: 0

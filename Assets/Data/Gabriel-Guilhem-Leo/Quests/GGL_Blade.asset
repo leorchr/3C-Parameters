@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a067d70ab102844989fcbcd83703c07a, type: 3}
+  m_Name: GGL_Blade
+  m_EditorClassIdentifier: 
+  title: A legendary sword
+  shortDescription: Go to the anvil and forge a blade.
+  description: Hello adventurer ! I need your help ! The legendary swordsman "Belias
+    Keria" will soon come in the village. As a present, I intended to create a high
+    quality sword for him. However, I broke my wrist a few days ago and am unable
+    to complete this task alone. Please, could you bring this iron ingot to the anvil
+    and forge it into a blade ?
+  thankYouMessage: Excellent ! I didn't know you had that kind of skills !
+  reward: 25 gold coins
+  requirements:
+  - item: {fileID: 11400000, guid: a76cfc092797ba84bbbb84d83a3c9457, type: 2}
+    quantity: 1
+  moneyReward: 25
+  itemReward:
+    item: {fileID: 0}
+    quantity: 0

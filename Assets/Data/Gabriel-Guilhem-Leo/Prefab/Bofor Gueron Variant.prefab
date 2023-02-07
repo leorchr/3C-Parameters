@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5112769100010690010
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3638980195991404869, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.85344183
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.37619612
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9265401
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -224.196
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822140223263369789, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: waitForObject
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: interactionType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: quests.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: quests.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 35cab031524dff34f8bd62a92e606671, type: 2}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: quests.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e2423fdc0b1e5f94d9f0eeac75554cec, type: 2}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: quests.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 66a11d3bc4565294fa3a52fd3c6c1b6a, type: 2}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: quests.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0988afd94d6376d43b883d2e5ff81ec4, type: 2}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: requiredItems.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: requiredItems.Array.data[0].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 78de5404eb190ab40a0815ed256d55d1, type: 2}
+    - target: {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: requiredItems.Array.data[0].quantity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4485911666976370823, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_Name
+      value: Bofor Gueron Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4485911666976370823, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_TagString
+      value: Interactive
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594188041115119148, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300038, guid: e2958561779b1a748a4246b9d0c0b309, type: 3}
+    m_RemovedComponents:
+    - {fileID: 4401000874884499288, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+--- !u!1 &8697889645697115485 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4485911666976370823, guid: 737d023d9032a55489052336e0c50d9d, type: 3}
+  m_PrefabInstance: {fileID: 5112769100010690010}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &4955854093726700507
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8697889645697115485}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.82
+  m_Center: {x: 0.15, y: 1.15, z: 1.08}
