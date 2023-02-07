@@ -25299,6 +25299,37 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 8f9d69cd77c6d7345a3253b6872e3675, type: 3}
+--- !u!1 &544368001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 544368002}
+  m_Layer: 0
+  m_Name: CameraMaison
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &544368002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544368001}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.71, y: 2.679, z: 3.37}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1590243107}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &544649542 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1021561775869318, guid: 3717b2b70091280419fb99b9e9f5dec7, type: 3}
@@ -32076,7 +32107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711123877}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.8, y: 0.036778092, z: -1.37}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32106,6 +32137,8 @@ MonoBehaviour:
   targetOffset: {x: 0, y: 1.8, z: 0}
   targetArmLength: 3
   cameraOffset: {x: 0.5, y: 0, z: -0.3}
+  deadZoneSize: 5
+  targetZoneSize: 0.1
   doCollisionTest: 1
   collisiontestResolution: 4
   collisionProbeSize: 0.3
@@ -32118,6 +32151,7 @@ MonoBehaviour:
   springArmLineWidth: 6
   showRayCasts: 1
   showCollisionProbe: 1
+  camera1: {fileID: 544368002}
 --- !u!1 &713708670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1613846653259236, guid: f0c733681c6e41b4a889fbfad72d6195, type: 3}
@@ -73424,6 +73458,7 @@ Transform:
   m_Children:
   - {fileID: 2009523327}
   - {fileID: 711123878}
+  - {fileID: 544368002}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

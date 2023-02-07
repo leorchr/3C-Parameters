@@ -4,6 +4,16 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
+enum DeadZoneStatus
+{
+    In, Out, CatchingUp
+}
+
+enum CameraStatus
+{
+    ThirdPerson, FirstPerson, Camera1
+}
+
 public class SpringArm : MonoBehaviour
 {
     #region Rotation Settings
@@ -37,6 +47,11 @@ public class SpringArm : MonoBehaviour
     private Vector3 moveVelocity;
     private Vector3 endPoint;
     private Vector3 cameraPosition;
+
+    [SerializeField] private float deadZoneSize;
+    [SerializeField] private float targetZoneSize = 0.1f;
+    private DeadZoneStatus deadZoneStatus = DeadZoneStatus.In;
+
 
     #endregion
 
@@ -73,6 +88,17 @@ public class SpringArm : MonoBehaviour
 
     #endregion
 
+    #region Camera Transition
+
+    [Space]
+    [Header("Camera Transition \n-------------------------")]
+    [Space]
+
+    [SerializeField] private Transform camera1;
+    private CameraStatus cameraStatus = CameraStatus.ThirdPerson;
+
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -92,19 +118,61 @@ public class SpringArm : MonoBehaviour
         if(!target)
             return;
 
-        if(doCollisionTest)
+        Vector3 targetPosition = Vector3.zero;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            CheckCollisions();
+            cameraStatus = CameraStatus.ThirdPerson;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            cameraStatus = CameraStatus.Camera1;
         }
 
-        SetCameraTransform();
-
-        if (useControlRotation && Application.isPlaying)
+        if(cameraStatus == CameraStatus.Camera1)
         {
-            Rotate();
+            targetPosition = camera1.position;
+            transform.LookAt(target);
+        }
+        else if (cameraStatus == CameraStatus.ThirdPerson)
+        {
+            if (doCollisionTest)
+            {
+                CheckCollisions();
+            }
+            SetCameraTransform();
+            if (useControlRotation && Application.isPlaying)
+            {
+                Rotate();
+            }
         }
 
-        Vector3 targetPosition = target.position + targetOffset;
+        float distanceToTarget = Vector3.Distance(transform.position, target.position + targetOffset);
+        if (distanceToTarget > deadZoneSize)
+        {
+            deadZoneStatus = DeadZoneStatus.Out;
+            targetPosition = target.position + targetOffset;
+        }
+        else
+        {
+            switch(deadZoneStatus){
+                case DeadZoneStatus.In:
+                    targetPosition = transform.position;
+                    break;
+                case DeadZoneStatus.Out:
+                    targetPosition = target.position + targetOffset;
+                    deadZoneStatus = DeadZoneStatus.CatchingUp;
+                    break;
+                case DeadZoneStatus.CatchingUp:
+                    targetPosition = target.position + targetOffset;
+                    if (distanceToTarget < targetZoneSize)
+                    {
+                        deadZoneStatus = DeadZoneStatus.In;
+                    }
+                    break;
+            }
+        }
+
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
     }
 
@@ -173,8 +241,8 @@ public class SpringArm : MonoBehaviour
 
         for(int i = 0, angle = 0; i<collisiontestResolution; i++, angle += 360 / collisiontestResolution)
         {
-            Vector3 rayvastLocalEndPoint = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0) * collisionProbeSize;
-            raycastPositions[i] = endPoint + (trans.rotation * rayvastLocalEndPoint);
+            Vector3 raycastLocalEndPoint = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0) * collisionProbeSize;
+            raycastPositions[i] = endPoint + (trans.rotation * raycastLocalEndPoint);
             Physics.Linecast(trans.position, raycastPositions[i], out hits[i], collisionLayerMask);
         }
     }
