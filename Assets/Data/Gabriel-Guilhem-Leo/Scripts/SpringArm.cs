@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
+using System.Text;
+using System.Globalization;
 
 enum DeadZoneStatus
 {
@@ -11,7 +13,7 @@ enum DeadZoneStatus
 
 enum CameraStatus
 {
-    ThirdPerson, FirstPerson, Camera1
+    ThirdPerson, FirstPerson, ThirdPersonClose
 }
 
 public class SpringArm : MonoBehaviour
@@ -94,8 +96,12 @@ public class SpringArm : MonoBehaviour
     [Header("Camera Transition \n-------------------------")]
     [Space]
 
-    [SerializeField] private Transform camera1;
+
     private CameraStatus cameraStatus = CameraStatus.ThirdPerson;
+    private float tpsSmoothTime;
+    private float tpsTargetArmLength;
+    private Vector3 tpsCameraOffset;
+
 
     #endregion
 
@@ -104,6 +110,9 @@ public class SpringArm : MonoBehaviour
     {
         raycastPositions = new Vector3[collisiontestResolution];
         hits = new RaycastHit[collisiontestResolution];
+        tpsTargetArmLength = targetArmLength;
+        tpsSmoothTime = movementSmoothTime;
+        tpsCameraOffset = cameraOffset;
     }
 
     private void OnValidate()
@@ -126,60 +135,68 @@ public class SpringArm : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            cameraStatus = CameraStatus.Camera1;
+            cameraStatus = CameraStatus.FirstPerson;
         }
 
-        if(cameraStatus == CameraStatus.Camera1)
+        switch (cameraStatus)
         {
-            targetPosition = camera1.position;
-            transform.LookAt(target);
-        }
-        else if (cameraStatus == CameraStatus.ThirdPerson)
-        {
-            if (doCollisionTest)
-            {
-                CheckCollisions();
-            }
-            SetCameraTransform();
-            if (useControlRotation && Application.isPlaying)
-            {
-                Rotate();
-            }
-        }
-
-        float distanceToTarget = Vector3.Distance(transform.position, target.position + targetOffset);
-        if (distanceToTarget > deadZoneSize)
-        {
-            deadZoneStatus = DeadZoneStatus.Out;
-            targetPosition = target.position + targetOffset;
-        }
-        else
-        {
-            switch(deadZoneStatus){
-                case DeadZoneStatus.In:
-                    targetPosition = transform.position;
-                    break;
-                case DeadZoneStatus.Out:
+            case CameraStatus.ThirdPerson:
+                doCollisionTest = true;
+                targetArmLength = tpsTargetArmLength;
+                movementSmoothTime = tpsSmoothTime;
+                cameraOffset = tpsCameraOffset;
+                float distanceToTarget = Vector3.Distance(transform.position, target.position + targetOffset);
+                if (distanceToTarget > deadZoneSize)
+                {
+                    deadZoneStatus = DeadZoneStatus.Out;
                     targetPosition = target.position + targetOffset;
-                    deadZoneStatus = DeadZoneStatus.CatchingUp;
-                    break;
-                case DeadZoneStatus.CatchingUp:
-                    targetPosition = target.position + targetOffset;
-                    if (distanceToTarget < targetZoneSize)
+                }
+                else
+                {
+                    switch (deadZoneStatus)
                     {
-                        deadZoneStatus = DeadZoneStatus.In;
+                        case DeadZoneStatus.In:
+                            targetPosition = transform.position;
+                            break;
+                        case DeadZoneStatus.Out:
+                            targetPosition = target.position + targetOffset;
+                            deadZoneStatus = DeadZoneStatus.CatchingUp;
+                            break;
+                        case DeadZoneStatus.CatchingUp:
+                            targetPosition = target.position + targetOffset;
+                            if (distanceToTarget < targetZoneSize)
+                            {
+                                deadZoneStatus = DeadZoneStatus.In;
+                            }
+                            break;
                     }
-                    break;
-            }
+                }
+                break;
+
+            case CameraStatus.FirstPerson:
+                //transform.GetChild(0).position = targetPosition;
+                doCollisionTest = false;
+                targetPosition = target.position + targetOffset;
+                targetArmLength = 0f;
+                movementSmoothTime = 0f;
+                cameraOffset = Vector3.zero;
+                break;
+
         }
 
+
+        if (doCollisionTest)
+        {
+            CheckCollisions();
+        }
+        SetCameraTransform();
+        if (useControlRotation && Application.isPlaying)
+        {
+            Rotate();
+        }
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
     }
 
-    //Ca c'est de la documentation qu'on peut rajouter
-    /// <summary>
-    /// Handle Rotation
-    /// </summary>
     private void Rotate()
     {
         //Notation ternaire = faire ce if juste au dessu en une ligne pour avoir un retour de valeur, gauche si c'est true et droite si c'est false
@@ -196,7 +213,6 @@ public class SpringArm : MonoBehaviour
     private void SetCameraTransform()
     {
         Transform trans = transform;
-
         Vector3 targetArmOffset = cameraOffset - new Vector3(0, 0, targetArmLength);
         endPoint = trans.position + (trans.rotation * targetArmOffset);
 
@@ -224,17 +240,12 @@ public class SpringArm : MonoBehaviour
         {
             cameraPosition = endPoint;
         }
-
         Vector3 cameraVelocity = Vector3.zero;
         foreach (Transform child in trans)
         {
             child.position = Vector3.SmoothDamp(child.position, cameraPosition, ref cameraVelocity, collisionSmoothTime);
         }
     }
-
-    ///<summary>
-    ///Checks for collisions and fill the raycastPositions and hits array
-    /// </summary>
     private void CheckCollisions()
     {
         Transform trans = transform;
