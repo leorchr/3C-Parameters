@@ -5,13 +5,17 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using System.Text;
 using System.Globalization;
+using System;
+using System.Linq.Expressions;
+using UnityEngine.InputSystem.HID;
+using Unity.VisualScripting.ReorderableList;
 
 enum DeadZoneStatus
 {
     In, Out, CatchingUp
 }
 
-enum CameraStatus
+public enum CameraStatus
 {
     ThirdPerson, FirstPerson, ThirdPersonClose
 }
@@ -43,12 +47,13 @@ public class SpringArm : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private float movementSmoothTime = 0.5f;
     [SerializeField] private Vector3 targetOffset = new Vector3(0, 1.8f, 0);
-    [SerializeField] private float targetArmLength = 13f;
+    [SerializeField] private float[] targetsArmLength = new float[Enum.GetNames(typeof(CameraStatus)).Length];
     [SerializeField] private Vector3 cameraOffset = new Vector3(0.5f, 0, -0.3f);
 
     private Vector3 moveVelocity;
     private Vector3 endPoint;
     private Vector3 cameraPosition;
+    private float targetArmLength;
 
     [SerializeField] private float deadZoneSize;
     [SerializeField] private float targetZoneSize = 0.1f;
@@ -97,10 +102,11 @@ public class SpringArm : MonoBehaviour
     [Space]
 
 
-    private CameraStatus cameraStatus = CameraStatus.ThirdPerson;
+    [HideInInspector] public CameraStatus cameraStatus = CameraStatus.ThirdPerson;
     private float tpsSmoothTime;
-    private float tpsTargetArmLength;
     private Vector3 tpsCameraOffset;
+    [SerializeField] private SkinnedMeshRenderer characterRenderer;
+
 
 
     #endregion
@@ -110,7 +116,7 @@ public class SpringArm : MonoBehaviour
     {
         raycastPositions = new Vector3[collisiontestResolution];
         hits = new RaycastHit[collisiontestResolution];
-        tpsTargetArmLength = targetArmLength;
+        targetArmLength = targetsArmLength[0];
         tpsSmoothTime = movementSmoothTime;
         tpsCameraOffset = cameraOffset;
     }
@@ -129,20 +135,11 @@ public class SpringArm : MonoBehaviour
 
         Vector3 targetPosition = Vector3.zero;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            cameraStatus = CameraStatus.ThirdPerson;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            cameraStatus = CameraStatus.FirstPerson;
-        }
-
         switch (cameraStatus)
         {
             case CameraStatus.ThirdPerson:
                 doCollisionTest = true;
-                targetArmLength = tpsTargetArmLength;
+                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPerson)];
                 movementSmoothTime = tpsSmoothTime;
                 cameraOffset = tpsCameraOffset;
                 float distanceToTarget = Vector3.Distance(transform.position, target.position + targetOffset);
@@ -174,10 +171,9 @@ public class SpringArm : MonoBehaviour
                 break;
 
             case CameraStatus.FirstPerson:
-                //transform.GetChild(0).position = targetPosition;
                 doCollisionTest = false;
                 targetPosition = target.position + targetOffset;
-                targetArmLength = 0f;
+                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.FirstPerson)];
                 movementSmoothTime = 0f;
                 cameraOffset = Vector3.zero;
                 break;
@@ -195,6 +191,14 @@ public class SpringArm : MonoBehaviour
             Rotate();
         }
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
+        /*if(cameraStatus== CameraStatus.FirstPerson)
+        {
+            if (Vector3.Distance(target.position, cameraPosition) < 1)
+            {
+                characterRenderer.enabled = !characterRenderer.enabled;
+            }
+            
+        }*/
     }
 
     private void Rotate()
@@ -282,4 +286,18 @@ public class SpringArm : MonoBehaviour
             Handles.SphereHandleCap(0, cameraPosition, Quaternion.identity, 2 * collisionProbeSize, EventType.Repaint);
         }
     }
+
+    Vector3 EaseInOutQuint(Vector3 current, Vector3 target, ref Vector3 currentVelocity, float smoothTime, float maxSpeed)
+    {
+        float deltaTime = Time.deltaTime;
+        Vector3 delta = target - current;
+        Vector3 speed = currentVelocity + deltaTime * delta / smoothTime;
+        Vector3 x = speed * deltaTime / smoothTime;
+        currentVelocity = speed - x * (1 - Mathf.Sqrt(1 - Mathf.Pow(x.magnitude, 2))) * deltaTime;
+
+        Vector3 newValue = current + currentVelocity * deltaTime;
+        float maxChange = maxSpeed * smoothTime * deltaTime;
+        return Vector3.ClampMagnitude(newValue, maxChange) + (target - Vector3.ClampMagnitude(target, maxChange));
+    }
+
 }
