@@ -17,7 +17,7 @@ enum DeadZoneStatus
 
 public enum CameraStatus
 {
-    ThirdPerson, FirstPerson, ThirdPersonClose
+    FirstPerson, ThirdPerson, ThirdPersonClose, ThirdPersonFar
 }
 
 public class SpringArm : MonoBehaviour
@@ -48,12 +48,14 @@ public class SpringArm : MonoBehaviour
     [SerializeField] private float movementSmoothTime = 0.5f;
     [SerializeField] private Vector3 targetOffset = new Vector3(0, 1.8f, 0);
     [SerializeField] private float[] targetsArmLength = new float[Enum.GetNames(typeof(CameraStatus)).Length];
-    [SerializeField] private Vector3 cameraOffset = new Vector3(0.5f, 0, -0.3f);
+    [SerializeField] private Vector3[] cameraOffsets = new Vector3[Enum.GetNames(typeof(CameraStatus)).Length];
 
     private Vector3 moveVelocity;
     private Vector3 endPoint;
     private Vector3 cameraPosition;
     private float targetArmLength;
+    private Vector3 cameraOffset;
+    private Vector3 targetPosition;
 
     [SerializeField] private float deadZoneSize;
     [SerializeField] private float targetZoneSize = 0.1f;
@@ -114,11 +116,12 @@ public class SpringArm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cameraStatus = CameraStatus.ThirdPerson;
         raycastPositions = new Vector3[collisiontestResolution];
         hits = new RaycastHit[collisiontestResolution];
-        targetArmLength = targetsArmLength[0];
+        targetArmLength = targetsArmLength[1];
         tpsSmoothTime = movementSmoothTime;
-        tpsCameraOffset = cameraOffset;
+        cameraOffset = cameraOffsets[1];
     }
 
     private void OnValidate()
@@ -133,64 +136,69 @@ public class SpringArm : MonoBehaviour
         if(!target)
             return;
 
-        Vector3 targetPosition = Vector3.zero;
+        targetPosition = Vector3.zero;
 
         switch (cameraStatus)
         {
-            case CameraStatus.ThirdPerson:
-                doCollisionTest = true;
-                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPerson)];
-                movementSmoothTime = tpsSmoothTime;
-                cameraOffset = tpsCameraOffset;
-                float distanceToTarget = Vector3.Distance(transform.position, target.position + targetOffset);
-                if (distanceToTarget > deadZoneSize)
-                {
-                    deadZoneStatus = DeadZoneStatus.Out;
-                    targetPosition = target.position + targetOffset;
-                }
-                else
-                {
-                    switch (deadZoneStatus)
-                    {
-                        case DeadZoneStatus.In:
-                            targetPosition = transform.position;
-                            break;
-                        case DeadZoneStatus.Out:
-                            targetPosition = target.position + targetOffset;
-                            deadZoneStatus = DeadZoneStatus.CatchingUp;
-                            break;
-                        case DeadZoneStatus.CatchingUp:
-                            targetPosition = target.position + targetOffset;
-                            if (distanceToTarget < targetZoneSize)
-                            {
-                                deadZoneStatus = DeadZoneStatus.In;
-                            }
-                            break;
-                    }
-                }
-                break;
 
             case CameraStatus.FirstPerson:
                 doCollisionTest = false;
                 targetPosition = target.position + targetOffset;
                 targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.FirstPerson)];
                 movementSmoothTime = 0f;
-                cameraOffset = Vector3.zero;
+                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.FirstPerson)];
                 break;
 
+            case CameraStatus.ThirdPerson:
+                doCollisionTest = true;
+                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPerson)];
+                movementSmoothTime = tpsSmoothTime;
+                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPerson)];
+                ThirdPersonDefault();
+                break;
+
+            case CameraStatus.ThirdPersonClose:
+                doCollisionTest = true;
+                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonClose)];
+                movementSmoothTime = tpsSmoothTime;
+                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonClose)];
+                ThirdPersonDefault();
+                break;
+
+            case CameraStatus.ThirdPersonFar:
+                doCollisionTest = true;
+                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonFar)];
+                movementSmoothTime = tpsSmoothTime;
+                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonFar)];
+                ThirdPersonDefault();
+                break;
         }
 
 
-        if (doCollisionTest)
+        if (doCollisionTest) CheckCollisions();
+        if(cameraStatus != CameraStatus.FirstPerson) SetCameraTransform();
+        if (useControlRotation && Application.isPlaying) Rotate();
+
+        switch (cameraStatus)
         {
-            CheckCollisions();
+            case CameraStatus.FirstPerson:
+                foreach (Transform child in transform)
+                {
+                    child.localPosition = Vector3.zero;
+                }
+                transform.position = targetPosition;
+                break;
+            case CameraStatus.ThirdPerson:
+                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
+                break;
+            case CameraStatus.ThirdPersonClose:
+                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
+                break;
+            case CameraStatus.ThirdPersonFar:
+                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
+                break;
         }
-        SetCameraTransform();
-        if (useControlRotation && Application.isPlaying)
-        {
-            Rotate();
-        }
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
+
         /*if(cameraStatus== CameraStatus.FirstPerson)
         {
             if (Vector3.Distance(target.position, cameraPosition) < 1)
@@ -300,4 +308,33 @@ public class SpringArm : MonoBehaviour
         return Vector3.ClampMagnitude(newValue, maxChange) + (target - Vector3.ClampMagnitude(target, maxChange));
     }
 
+    private void ThirdPersonDefault()
+    {
+        float distanceToTarget = Vector3.Distance(transform.position, target.position + targetOffset);
+        if (distanceToTarget > deadZoneSize)
+        {
+            deadZoneStatus = DeadZoneStatus.Out;
+            targetPosition = target.position + targetOffset;
+        }
+        else
+        {
+            switch (deadZoneStatus)
+            {
+                case DeadZoneStatus.In:
+                    targetPosition = transform.position;
+                    break;
+                case DeadZoneStatus.Out:
+                    targetPosition = target.position + targetOffset;
+                    deadZoneStatus = DeadZoneStatus.CatchingUp;
+                    break;
+                case DeadZoneStatus.CatchingUp:
+                    targetPosition = target.position + targetOffset;
+                    if (distanceToTarget < targetZoneSize)
+                    {
+                        deadZoneStatus = DeadZoneStatus.In;
+                    }
+                    break;
+            }
+        }
+    }
 }

@@ -6,17 +6,25 @@ public class CameraManager : MonoBehaviour
 {
 
     [SerializeField] private SpringArm springArm;
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Fps"))
         {
             springArm.cameraStatus = CameraStatus.FirstPerson;
         }
-        
-     }
+        else if (other.CompareTag("TpsClose"))
+        {
+            springArm.cameraStatus = CameraStatus.ThirdPersonClose;
+        }
+        else if (other.CompareTag("TpsFar"))
+        {
+            springArm.cameraStatus = CameraStatus.ThirdPersonFar;
+        }
+
+    }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Fps"))
+        if (other.CompareTag("Fps") || other.CompareTag("TpsClose") || other.CompareTag("TpsFar"))
         {
             springArm.cameraStatus = CameraStatus.ThirdPerson;
         }
