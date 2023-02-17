@@ -24,5 +24,13 @@ public class CameraManager : MonoBehaviour
         {
             springArm.cameraStatus = CameraStatus.ThirdPerson;
         }
+
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Fps") || other.CompareTag("TpsClose") || other.CompareTag("TpsFar"))
+        {
+            springArm.cameraStatus = CameraStatus.ThirdPerson;
+        }
     }
 }
