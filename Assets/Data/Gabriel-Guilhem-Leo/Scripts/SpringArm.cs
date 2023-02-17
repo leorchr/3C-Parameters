@@ -140,6 +140,7 @@ public class SpringArm : MonoBehaviour
             return;
 
         targetPosition = Vector3.zero;
+        characterRenderer.enabled = true;
 
         switch (cameraStatus)
         {
@@ -163,6 +164,7 @@ public class SpringArm : MonoBehaviour
 
             case CameraStatus.FirstPerson:
                 doCollisionTest = false;
+                characterRenderer.enabled = false;
                 targetPosition = target.position + targetOffset;
                 SettingUpView(3);
                 break;
