@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5343842, g: 0.4568491, b: 0.514313, a: 1}
+  m_IndirectSpecularColor: {r: 0.5344067, g: 0.45684922, b: 0.51427937, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -32147,20 +32147,31 @@ MonoBehaviour:
   minAngle: -90
   maxAngle: 90
   target: {fileID: 191991442}
-  movementSmoothTime: 0.2
-  targetOffset: {x: 0, y: 1.8, z: 0}
-  targetsArmLength:
-  - 0
-  - 3
-  - 2
-  - 1
-  cameraOffsets:
-  - {x: 0, y: 0, z: 0}
-  - {x: -0.5, y: 0, z: 0.2}
-  - {x: 3, y: 0, z: 3}
-  - {x: -3, y: -3, z: -3}
-  deadZoneSize: 2
-  targetZoneSize: 0.1
+  settings:
+  - _movementSmoothTime: 0.2
+    _targetOffset: {x: 0, y: 1.8, z: 0}
+    _targetArmLength: 4
+    _cameraOffset: {x: 0, y: 0, z: 0}
+    _deadZoneSize: 0.5
+    _targetZoneSize: 0.1
+  - _movementSmoothTime: 0.2
+    _targetOffset: {x: 0, y: 1.8, z: 0}
+    _targetArmLength: 2
+    _cameraOffset: {x: 0, y: 0, z: 0}
+    _deadZoneSize: 0.5
+    _targetZoneSize: 0.1
+  - _movementSmoothTime: 0.2
+    _targetOffset: {x: 0, y: 1.8, z: 0}
+    _targetArmLength: 8
+    _cameraOffset: {x: 0, y: 0, z: 0}
+    _deadZoneSize: 0.5
+    _targetZoneSize: 0.1
+  - _movementSmoothTime: 0
+    _targetOffset: {x: 0, y: 1.8, z: 0}
+    _targetArmLength: 0
+    _cameraOffset: {x: 0, y: 0, z: 0}
+    _deadZoneSize: 0.5
+    _targetZoneSize: 0.1
   doCollisionTest: 1
   collisiontestResolution: 4
   collisionProbeSize: 0.3

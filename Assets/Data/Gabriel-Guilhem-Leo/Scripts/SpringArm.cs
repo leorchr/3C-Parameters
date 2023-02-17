@@ -17,7 +17,7 @@ enum DeadZoneStatus
 
 public enum CameraStatus
 {
-    FirstPerson, ThirdPerson, ThirdPersonClose, ThirdPersonFar
+    ThirdPerson, ThirdPersonClose, ThirdPersonFar, FirstPerson
 }
 
 public class SpringArm : MonoBehaviour
@@ -45,22 +45,36 @@ public class SpringArm : MonoBehaviour
     [Header("Follow Settings \n-------------------------")]
     [Space]
     [SerializeField] private Transform target;
-    [SerializeField] private float movementSmoothTime = 0.5f;
-    [SerializeField] private Vector3 targetOffset = new Vector3(0, 1.8f, 0);
-    [SerializeField] private float[] targetsArmLength = new float[Enum.GetNames(typeof(CameraStatus)).Length];
-    [SerializeField] private Vector3[] cameraOffsets = new Vector3[Enum.GetNames(typeof(CameraStatus)).Length];
+
+
+    private float movementSmoothTime = 0.2f;
+    private Vector3 targetOffset = new Vector3(0, 1.8f, 0);
+    private float targetArmLength = 3f;
+    private Vector3 cameraOffset;
+
+    // Enum.GetNames(typeof(CameraStatus)).Length
 
     private Vector3 moveVelocity;
     private Vector3 endPoint;
     private Vector3 cameraPosition;
-    private float targetArmLength;
-    private Vector3 cameraOffset;
     private Vector3 targetPosition;
 
-    [SerializeField] private float deadZoneSize;
-    [SerializeField] private float targetZoneSize = 0.1f;
+    private float deadZoneSize = 2f;
+    private float targetZoneSize = 0.1f;
     private DeadZoneStatus deadZoneStatus = DeadZoneStatus.In;
 
+    public Settings[] settings = new Settings[4];
+    [System.Serializable]
+
+    public struct Settings
+    {
+        public float _movementSmoothTime;
+        public Vector3 _targetOffset;
+        public float _targetArmLength;
+        public Vector3 _cameraOffset;
+        public float _deadZoneSize;
+        public float _targetZoneSize;
+    }
 
     #endregion
 
@@ -102,26 +116,16 @@ public class SpringArm : MonoBehaviour
     [Space]
     [Header("Camera Transition \n-------------------------")]
     [Space]
-
-
     [HideInInspector] public CameraStatus cameraStatus = CameraStatus.ThirdPerson;
-    private float tpsSmoothTime;
-    private Vector3 tpsCameraOffset;
     [SerializeField] private SkinnedMeshRenderer characterRenderer;
-
-
 
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         cameraStatus = CameraStatus.ThirdPerson;
         raycastPositions = new Vector3[collisiontestResolution];
         hits = new RaycastHit[collisiontestResolution];
-        targetArmLength = targetsArmLength[1];
-        tpsSmoothTime = movementSmoothTime;
-        cameraOffset = cameraOffsets[1];
     }
 
     private void OnValidate()
@@ -130,7 +134,6 @@ public class SpringArm : MonoBehaviour
         hits = new RaycastHit[collisiontestResolution];
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(!target)
@@ -140,37 +143,28 @@ public class SpringArm : MonoBehaviour
 
         switch (cameraStatus)
         {
-
-            case CameraStatus.FirstPerson:
-                doCollisionTest = false;
-                targetPosition = target.position + targetOffset;
-                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.FirstPerson)];
-                movementSmoothTime = 0f;
-                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.FirstPerson)];
-                break;
-
             case CameraStatus.ThirdPerson:
                 doCollisionTest = true;
-                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPerson)];
-                movementSmoothTime = tpsSmoothTime;
-                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPerson)];
+                SettingUpView(0);
                 ThirdPersonDefault();
                 break;
 
             case CameraStatus.ThirdPersonClose:
                 doCollisionTest = true;
-                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonClose)];
-                movementSmoothTime = tpsSmoothTime;
-                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonClose)];
+                SettingUpView(1);
                 ThirdPersonDefault();
                 break;
 
             case CameraStatus.ThirdPersonFar:
                 doCollisionTest = true;
-                targetArmLength = targetsArmLength[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonFar)];
-                movementSmoothTime = tpsSmoothTime;
-                cameraOffset = cameraOffsets[Array.IndexOf(Enum.GetValues(typeof(CameraStatus)), CameraStatus.ThirdPersonFar)];
+                SettingUpView(2);
                 ThirdPersonDefault();
+                break;
+
+            case CameraStatus.FirstPerson:
+                doCollisionTest = false;
+                targetPosition = target.position + targetOffset;
+                SettingUpView(3);
                 break;
         }
 
@@ -336,5 +330,15 @@ public class SpringArm : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void SettingUpView(int i)
+    {
+        movementSmoothTime = settings[i]._movementSmoothTime;
+        targetOffset = settings[i]._targetOffset;
+        targetArmLength = settings[i]._targetArmLength;
+        cameraOffset = settings[i]._cameraOffset;
+        deadZoneSize = settings[i]._deadZoneSize;
+        targetZoneSize = settings[i]._targetZoneSize;
     }
 }
