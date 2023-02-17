@@ -195,6 +195,7 @@ public class SpringArm : MonoBehaviour
                 break;
         }
 
+
         /*if(cameraStatus== CameraStatus.FirstPerson)
         {
             if (Vector3.Distance(target.position, cameraPosition) < 1)

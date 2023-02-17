@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,10 +16,13 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.Rotate(0, _movement.x * Time.deltaTime * _rotationSpeed, 0);
+        Vector3 cameraDir = Camera.main.transform.forward;
+        cameraDir.y = 0f;
+        transform.forward = cameraDir;
+        //transform.Rotate(0, _movement.x * Time.deltaTime * _rotationSpeed, 0);
         _rigidbody.MovePosition(transform.position + transform.forward * (_movement.y * _movementSpeed * Time.deltaTime));
         //transform.position += transform.forward * (_movement.y * _movementSpeed * Time.deltaTime);
-        
+
     }
 
     //Values are already normalized through the new Input System
