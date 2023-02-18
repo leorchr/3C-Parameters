@@ -20,12 +20,10 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 cameraDir = Camera.main.transform.forward;
         cameraDir.y = 0f;
-        //transform.forward = cameraDir;
         transform.forward = Vector3.SmoothDamp(transform.forward, cameraDir, ref rotVelocity, _smoothRotation);
 
-        //transform.Rotate(0, _movement.x * Time.deltaTime * _rotationSpeed, 0);
-        _rigidbody.MovePosition(transform.position + transform.forward * (_movement.y * _movementSpeed * Time.deltaTime));
-        //transform.position += transform.forward * (_movement.y * _movementSpeed * Time.deltaTime);
+        Vector3 movement = new Vector3(_movement.x,0,_movement.y);
+        moveCharacter(movement);
 
     }
 
@@ -39,5 +37,13 @@ public class PlayerController : MonoBehaviour
         }
         _movement = ctx.ReadValue<Vector2>();
         _animator.SetFloat("Speed", _movement.sqrMagnitude == 0 ? 0 : 2);
+    }
+
+    void moveCharacter(Vector3 direction)
+    {
+        // Convert direction into Rigidbody space.
+        direction = _rigidbody.rotation * direction;
+
+        _rigidbody.MovePosition(_rigidbody.position + direction * _movementSpeed * Time.fixedDeltaTime);
     }
 }
