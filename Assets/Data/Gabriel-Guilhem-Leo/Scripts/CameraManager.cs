@@ -12,7 +12,7 @@ public class CameraManager : MonoBehaviour
             springArm.cameraStatus == CameraStatus.ThirdPersonClose ||
             springArm.cameraStatus == CameraStatus.ThirdPersonFar)
         {
-            if(other.CompareTag("Fps") || other.CompareTag("TpsClose") || other.CompareTag("TpsFar"))
+            if(other.CompareTag("Fps") || other.CompareTag("TpsClose") || other.CompareTag("TpsFar") || other.CompareTag("TpsBFC"))
             {
                 springArm.cameraStatus = CameraStatus.ThirdPerson;
             }
@@ -28,6 +28,10 @@ public class CameraManager : MonoBehaviour
         else if (other.CompareTag("TpsFar"))
         {
             springArm.cameraStatus = CameraStatus.ThirdPersonFar;
+        }
+        else if (other.CompareTag("TpsBFC"))
+        {
+            springArm.cameraStatus = CameraStatus.ThirdPersonBFC;
         }
     }
 }

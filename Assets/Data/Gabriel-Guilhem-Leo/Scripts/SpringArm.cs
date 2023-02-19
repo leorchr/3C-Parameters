@@ -17,7 +17,7 @@ enum DeadZoneStatus
 
 public enum CameraStatus
 {
-    ThirdPerson, ThirdPersonClose, ThirdPersonFar, FirstPerson
+    ThirdPerson, ThirdPersonClose, ThirdPersonFar, FirstPerson, ThirdPersonBFC
 }
 
 public class SpringArm : MonoBehaviour
@@ -174,6 +174,12 @@ public class SpringArm : MonoBehaviour
                 targetPosition = target.position + targetOffset;
                 SettingUpView(3);
                 break;
+            case CameraStatus.ThirdPersonBFC:
+                doCollisionTest = false;
+                characterRenderer.enabled = false;
+                targetPosition = target.position + targetOffset;
+                SettingUpView(4);
+                break;
         }
 
 
@@ -197,6 +203,9 @@ public class SpringArm : MonoBehaviour
                 transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
                 break;
             case CameraStatus.ThirdPersonFar:
+                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
+                break;
+            case CameraStatus.ThirdPersonBFC:
                 transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref moveVelocity, movementSmoothTime);
                 break;
         }
