@@ -10,7 +10,8 @@ public class CameraManager : MonoBehaviour
     {
         if(springArm.cameraStatus == CameraStatus.FirstPerson ||
             springArm.cameraStatus == CameraStatus.ThirdPersonClose ||
-            springArm.cameraStatus == CameraStatus.ThirdPersonFar)
+            springArm.cameraStatus == CameraStatus.ThirdPersonFar
+            || springArm.cameraStatus == CameraStatus.ThirdPersonBFC)
         {
             if(other.CompareTag("Fps") || other.CompareTag("TpsClose") || other.CompareTag("TpsFar") || other.CompareTag("TpsBFC"))
             {
