@@ -1,15 +1,25 @@
 using JetBrains.Annotations;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float _movementSpeed = 5, _rotationSpeed = 100, _smoothRotation = 0.2f;
+    public static PlayerController Instance;
+    [SerializeField] private float _movementSpeed = 5, _smoothRotation = 0.2f;
     private Vector2 _movement = Vector2.zero;
     private Vector3 rotVelocity;
     private Animator _animator;
     private Rigidbody _rigidbody;
+    [SerializeField] private SpringArm _springArm;
+    public bool canRotate = true;
+    public bool canMove = true;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -20,10 +30,29 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 cameraDir = Camera.main.transform.forward;
         cameraDir.y = 0f;
-        transform.forward = Vector3.SmoothDamp(transform.forward, cameraDir, ref rotVelocity, _smoothRotation);
+        if(canRotate)
+        {
+            if (_springArm.cameraStatus == CameraStatus.FirstPerson)
+            {
+                transform.forward = cameraDir;
+            }
+            else
+            {
+                transform.forward = Vector3.SmoothDamp(transform.forward, cameraDir, ref rotVelocity, _smoothRotation);
+            }
+        }
 
-        Vector3 movement = new Vector3(_movement.x,0,_movement.y);
-        moveCharacter(movement);
+        if (canMove)
+        {
+            Vector3 movement = new Vector3(_movement.x, 0, _movement.y);
+            moveCharacter(movement);
+        }
+        else
+        {
+            LadderMovement();
+        }
+        
+        
 
     }
 
@@ -45,5 +74,19 @@ public class PlayerController : MonoBehaviour
         direction = _rigidbody.rotation * direction;
 
         _rigidbody.MovePosition(_rigidbody.position + direction * _movementSpeed * Time.fixedDeltaTime);
+    }
+
+    void LadderMovement()
+    {
+        if (_movement.y > 0)
+        {
+            Vector3 dir = (Ladder.Instance.topPosition.position - transform.position).normalized;
+            _rigidbody.MovePosition(_rigidbody.position + dir * _movementSpeed * Time.fixedDeltaTime);
+        }
+        else if (_movement.y < 0)
+        {
+            Vector3 dir = (Ladder.Instance.bottomPosition.position - transform.position).normalized;
+            _rigidbody.MovePosition(_rigidbody.position + dir * _movementSpeed * Time.fixedDeltaTime);
+        }
     }
 }

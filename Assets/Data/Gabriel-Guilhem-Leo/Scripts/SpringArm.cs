@@ -118,8 +118,14 @@ public class SpringArm : MonoBehaviour
     [Space]
     [HideInInspector] public CameraStatus cameraStatus = CameraStatus.ThirdPerson;
     [SerializeField] private SkinnedMeshRenderer characterRenderer;
+    public static SpringArm Instance;
 
     #endregion
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
