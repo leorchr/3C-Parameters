@@ -175,10 +175,9 @@ public class SpringArm : MonoBehaviour
                 SettingUpView(3);
                 break;
             case CameraStatus.ThirdPersonBFC:
-                doCollisionTest = false;
-                characterRenderer.enabled = false;
-                targetPosition = target.position + targetOffset;
+                doCollisionTest = true;
                 SettingUpView(4);
+                ThirdPersonDefault();
                 break;
         }
 
