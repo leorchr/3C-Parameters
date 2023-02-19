@@ -24178,7 +24178,7 @@ MonoBehaviour:
   doCollisionTest: 1
   collisiontestResolution: 4
   collisionProbeSize: 0.3
-  collisionSmoothTime: 0.2
+  collisionSmoothTime: 0.05
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 66743
