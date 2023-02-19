@@ -235,6 +235,7 @@ public class SpringArm : MonoBehaviour
 
     private void SetCameraTransform()
     {
+        collisionSmoothTime = 0.05f;
         Transform trans = transform;
         Vector3 targetArmOffset = cameraOffset - new Vector3(0, 0, targetArmLength);
         endPoint = trans.position + (trans.rotation * targetArmOffset);
@@ -247,6 +248,10 @@ public class SpringArm : MonoBehaviour
                 if (!hit.collider)
                 {
                     continue;
+                }
+                if (hit.collider)
+                {
+                    collisionSmoothTime = 0;
                 }
                 float distance = Vector3.Distance(hit.point, trans.position);
                 if (minDistance > distance)
