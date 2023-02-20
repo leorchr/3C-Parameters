@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     public bool canRotate = true;
     public bool canMove = true;
 
+    [HideInInspector] public Vector3 topPosition;
+    [HideInInspector] public Vector3 botPosition;
+
     private void Awake()
     {
         Instance = this;
@@ -80,12 +83,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_movement.y > 0)
         {
-            Vector3 dir = (Ladder.Instance.topPosition.position - transform.position).normalized;
+            Vector3 dir = (topPosition - transform.position).normalized;
             _rigidbody.MovePosition(_rigidbody.position + dir * _movementSpeed * Time.fixedDeltaTime);
         }
         else if (_movement.y < 0)
         {
-            Vector3 dir = (Ladder.Instance.bottomPosition.position - transform.position).normalized;
+            Vector3 dir = (botPosition - transform.position).normalized;
             _rigidbody.MovePosition(_rigidbody.position + dir * _movementSpeed * Time.fixedDeltaTime);
         }
     }

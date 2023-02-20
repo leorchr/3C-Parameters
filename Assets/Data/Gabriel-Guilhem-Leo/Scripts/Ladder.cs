@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class Ladder : Interactive
 {
-    public static Ladder Instance;
-
     [SerializeField] private GameObject player;
     public Transform bottomPosition;
     public Transform topPosition;
     [HideInInspector] public bool onLadder = false;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
@@ -23,6 +16,8 @@ public class Ladder : Interactive
 
     public override void OnInteraction()
     {
+        PlayerController.Instance.topPosition = topPosition.position;
+        PlayerController.Instance.botPosition = bottomPosition.position;
         player.transform.position = bottomPosition.position;
 
         if(onLadder)

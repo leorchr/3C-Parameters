@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class LadderTop : Interactive
 {
-    public static LadderTop Instance;
-
     [SerializeField] private GameObject player;
     public Transform topPosition;
     public Transform topPositionExit;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
+    public Ladder ladder;
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -22,9 +15,9 @@ public class LadderTop : Interactive
 
     public override void OnInteraction()
     {
-        if(Ladder.Instance.onLadder)
+        if(ladder.onLadder)
         {
-            Ladder.Instance.onLadder = false;
+            ladder.onLadder = false;
             SpringArm.Instance.cameraStatus = CameraStatus.FirstPerson;
             player.transform.position = topPositionExit.position;
             player.GetComponent<Rigidbody>().useGravity = true;
@@ -33,7 +26,7 @@ public class LadderTop : Interactive
         }
         else
         {
-            Ladder.Instance.onLadder = true;
+            ladder.onLadder = true;
             SpringArm.Instance.cameraStatus = CameraStatus.ThirdPerson;
             player.transform.position = topPosition.position;
             player.GetComponent<Rigidbody>().useGravity = false;
