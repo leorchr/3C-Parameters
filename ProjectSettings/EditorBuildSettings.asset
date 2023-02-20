@@ -5,13 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SelectionMenu.unity
-    guid: 66e8f00bf83414932802c7c62db2f259
   - enabled: 1
     path: Assets/Scenes/Gabriel_Scene.unity
     guid: dec7a82cb9030bf41bf357f95818aa74
-  - enabled: 0
-    path: Assets/Scenes/Game.unity
-    guid: b6a7556cf682c4340b69fee4c7cb613c
   m_configObjects: {}

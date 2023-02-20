@@ -1,14 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.UIElements;
-using System.Text;
-using System.Globalization;
 using System;
-using System.Linq.Expressions;
-using UnityEngine.InputSystem.HID;
-using Unity.VisualScripting.ReorderableList;
 
 enum DeadZoneStatus
 {
@@ -286,6 +278,8 @@ public class SpringArm : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
+
     private void OnDrawGizmosSelected()
     {
         if (!visualDebugging)
@@ -310,6 +304,8 @@ public class SpringArm : MonoBehaviour
             Handles.SphereHandleCap(0, cameraPosition, Quaternion.identity, 2 * collisionProbeSize, EventType.Repaint);
         }
     }
+
+#endif
 
     Vector3 EaseInOutQuint(Vector3 current, Vector3 target, ref Vector3 currentVelocity, float smoothTime, float maxSpeed)
     {
