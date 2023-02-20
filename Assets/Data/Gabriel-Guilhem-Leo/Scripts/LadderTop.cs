@@ -7,6 +7,7 @@ public class LadderTop : Interactive
     [SerializeField] private GameObject player;
     public Transform topPosition;
     public Transform topPositionExit;
+    public Transform botPosition;
     public Ladder ladder;
     private void Start()
     {
@@ -15,7 +16,9 @@ public class LadderTop : Interactive
 
     public override void OnInteraction()
     {
-        if(ladder.onLadder)
+        PlayerController.Instance.topPosition = topPosition.position;
+        PlayerController.Instance.botPosition = botPosition.position;
+        if (ladder.onLadder)
         {
             ladder.onLadder = false;
             SpringArm.Instance.cameraStatus = CameraStatus.FirstPerson;
