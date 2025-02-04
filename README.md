@@ -19,7 +19,7 @@
 
 ## 📸 Project Overview
 
- Watch the demo on [Youtube](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)<br><br>
+ Watch the demo on [Youtube](https://youtu.be/MnXC2tC8oK8)<br><br>
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/58ccb355-2c8c-469a-ad15-9e6637eddd24" width="75%"/><br><br>
